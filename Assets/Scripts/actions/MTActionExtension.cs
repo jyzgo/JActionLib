@@ -5,17 +5,6 @@ namespace MTUnityAction{
 public static class MTActionExtension  {
 
 
-	// public static MTAction runAction(this GameObject target,MTAction action)
-	// {
-	// 	MTMTActionManager.instance.instance.addAction(action,target,false);
-	// 	return action;
-	// }
-
-	// public static MTAction stopAction(this GameObject target,MTAction action)
-	// {
-	// 	MTMTActionManager.instance.instance.removeAction(target,action);
-	// 	return action;
-	// }
     #region Actions
 
 	public static bool IsRunning(this GameObject target)
@@ -61,13 +50,13 @@ public static class MTActionExtension  {
         return target.RunAction(new MTRepeatForever (action) { Tag = action.Tag });
     }
 
-		public static MTActionState RunAction(this MonoBehaviour target, MTAction action)
-		{
-			Debug.Assert(action != null, "Argument must be non-nil");
+	public static MTActionState RunAction(this MonoBehaviour target, MTAction action)
+	{
+		Debug.Assert(action != null, "Argument must be non-nil");
 
-			GameObject curObj = target.gameObject;
-			return  curObj.RunAction (action);
-		}
+		GameObject curObj = target.gameObject;
+		return  curObj.RunAction (action);
+	}
 
 	public static MTActionState RunAction(this GameObject target, MTAction action)
     {
@@ -103,17 +92,31 @@ public static class MTActionExtension  {
             MTActionManager.instance.RemoveAllActionsFromTarget(target);
     }
 
+		public static void StopAllActions(this MonoBehaviour target)
+		{
+			target.gameObject.StopAllActions ();
+		}
+
     public static void StopAction(this GameObject target, MTActionState actionState)
     {
         if(MTActionManager.instance != null)
             MTActionManager.instance.RemoveAction(actionState);
     }
 
+		public static void StopAction(this MonoBehaviour target,MTActionState actionState)
+		{
+			target.gameObject.StopAction (actionState);
+		}
+
 	public static void StopAction(this GameObject target, int tag)
     {
         Debug.Assert(tag != -1, "Invalid tag");
 			MTActionManager.instance.RemoveAction(tag, target);
     }
+		public static void StopAction(this MonoBehaviour target,int tag)
+		{
+			target.gameObject.StopAction (tag);
+		}
 
 		public static MTAction GetAction(this GameObject target, int tag)
     {

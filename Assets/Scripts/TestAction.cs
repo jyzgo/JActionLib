@@ -87,6 +87,8 @@ public class TestAction : MonoBehaviour {
 
 		}
 
+
+
 		if (GUILayout.Button("Hide")) 
 		{
 			resetObject();
@@ -107,7 +109,7 @@ public class TestAction : MonoBehaviour {
 	void resetObject()
 	{
 		this.transform.position = new Vector3 (1, 2, 2);
-		this.gameObject.StopAllActions ();
+		this.StopAllActions ();
 	}
 		
 }
