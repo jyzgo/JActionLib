@@ -8,16 +8,29 @@ public class TestAction : MonoBehaviour {
 	void Start () {
 		MTActionManager.instance.init ();
 	}
+
+	bool canMove = false;
+	void Update()
+	{
+		if (canMove) {
+		
+
+		}
+	}
 	
 
 
 	void OnGUI()
 	{
-
-
-		if (GUILayout.Button ("MoveBy")) {
+		if (GUILayout.Button ("LerpMove")) {
 			resetObject ();
-			var moveBy = new MTMoveBy(1,new Vector3(-1,1,-3));
+			
+		}
+
+
+		if (GUILayout.Button ("MoveTo")) {
+			resetObject ();
+			var moveBy = new MTMoveBy(1,new Vector3(0,10,0));
 			this.RunAction (moveBy);
 		}
 
