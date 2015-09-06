@@ -172,6 +172,18 @@ public static class MTActionExtension  {
 		return 0f;
 	}
 
+		public static void setOpacity(this Transform curTransform,float curA)
+		{
+			var target = curTransform.gameObject;
+			target.setOpacity (curA);
+		}
+
+		public static float getOpacity(this Transform curTransform)
+		{
+			GameObject target = curTransform.gameObject;
+			return target.getOpacity ();
+		}
+
 	public static void setOpacity(this GameObject target,float curA)
 	{
 		if (target) 
@@ -183,9 +195,27 @@ public static class MTActionExtension  {
 					var newColor = new Color (originColor.r,originColor.g,originColor.b,curA);
 			
 					target.GetComponent<Renderer> ().material.color = newColor;
+
+					var children = target.gameObject.GetComponentsInChildren<Transform> ();
+
+					for (int i = 0; i < children.Length; ++i) {
+						if(children[i].gameObject.GetInstanceID() != target.GetInstanceID())
+						{
+//							var childOpacity = children [i].getOpacity ();
+								children [i].setOpacity (curA);
+						}
+					
+					}
+			}
+
+			var convasGroup = target.GetComponent<CanvasGroup> ();
+			if (convasGroup != null) {
+				convasGroup.alpha = curA;
 			}
 			
 		}
+
+
 	}
 
 	public static Color getColor(this GameObject target)

@@ -121,7 +121,7 @@ public class TestAction : MonoBehaviour {
 
 	void resetObject()
 	{
-		this.transform.position = new Vector3 (1, 2, 2);
+//		this.transform.position = new Vector3 (1, 2, 2);
 		this.StopAllActions ();
 	}
 		
