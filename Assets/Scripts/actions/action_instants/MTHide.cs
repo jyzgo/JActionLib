@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MTUnityAction
+namespace MTUnity.Actions
 {
     public class MTHide : MTActionInstant
     {
@@ -34,7 +34,8 @@ namespace MTUnityAction
         {   
 			var render = target.GetComponent<Renderer> ();
 			if (render) {
-				render.enabled = false;
+				var curColor =  render.material.color ;
+				render.material.color = new Color(curColor.r,curColor.g,curColor.b,0f);
 			}
         }
 

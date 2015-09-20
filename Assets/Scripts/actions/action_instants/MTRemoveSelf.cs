@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace MTUnityAction
+namespace MTUnity.Actions
 {
     public class MTRemoveSelf : MTActionInstant
     {

@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace MTUnityAction
+namespace MTUnity.Actions
 {
     public class MTRepeatForever : MTFiniteTimeAction
     {

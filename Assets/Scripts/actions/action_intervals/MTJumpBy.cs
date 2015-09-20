@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MTUnityAction
+namespace MTUnity.Actions
 {
     public class MTJumpBy : MTFiniteTimeAction
     {   
@@ -49,7 +49,7 @@ namespace MTUnityAction
 			Delta = action.Position;
             Height = action.Height;
             Jumps = action.Jumps;
-			P = StartPosition = target.transform.position;
+			P = StartPosition = target.transform.localPosition;
         }
 
         public override void Update (float time)
@@ -65,14 +65,14 @@ namespace MTUnityAction
 				float z = Delta.z * time;
 
 
-				Vector3 currentPos = Target.transform.position;
+				Vector3 currentPos = Target.transform.localPosition;
 
                 Vector3 diff = currentPos - P;
                 StartPosition = diff + StartPosition;
 
 
 				Vector3 newPos = StartPosition + new Vector3 (x, y,z);
-				Target.transform.position = newPos;
+				Target.transform.localPosition = newPos;
 
                 P = newPos;
             }

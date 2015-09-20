@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using MTUnityAction;
+using MTUnity.Actions;
 
 public class TestAction : MonoBehaviour {
 
@@ -22,10 +22,7 @@ public class TestAction : MonoBehaviour {
 
 	void OnGUI()
 	{
-		if (GUILayout.Button ("LerpMove")) {
-			resetObject ();
-			
-		}
+
 
 
 		if (GUILayout.Button ("MoveTo")) {
@@ -121,7 +118,7 @@ public class TestAction : MonoBehaviour {
 
 	void resetObject()
 	{
-//		this.transform.position = new Vector3 (1, 2, 2);
+		this.transform.position = new Vector3 (1, 2, 2);
 		this.StopAllActions ();
 	}
 		

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-namespace MTUnityAction
+namespace MTUnity.Actions
 {
 	public class MTActionManager : MonoBehaviour, IDisposable
     {

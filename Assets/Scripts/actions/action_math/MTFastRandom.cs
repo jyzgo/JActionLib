@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MTUnityAction
+namespace MTUnity.Actions
 {
     /// <summary>
     /// A fast random number generator for .NET

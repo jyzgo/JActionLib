@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MTUnityAction
+namespace MTUnity.Actions
 {
     public class MTMoveBy : MTFiniteTimeAction
     {
@@ -37,7 +37,7 @@ namespace MTUnityAction
             : base (action, target)
         { 
 			PositionDelta = action.PositionDelta;
-			PreviousPosition = StartPosition = target.transform.position;
+			PreviousPosition = StartPosition = target.transform.localPosition;
         }
 
         public override void Update (float time)
@@ -45,11 +45,11 @@ namespace MTUnityAction
             if (Target == null)
                 return;
 
-			var currentPos = Target.transform.position;
+			var currentPos = Target.transform.localPosition;
             var diff = currentPos - PreviousPosition;
             StartPosition = StartPosition + diff;
             Vector3 newPos = StartPosition + PositionDelta * time;
-			Target.transform.position = newPos;
+			Target.transform.localPosition = newPos;
             PreviousPosition = newPos;
         }
     }

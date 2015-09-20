@@ -3,7 +3,7 @@ using System;
 
 using UnityEngine;
 
-namespace MTUnityAction
+namespace MTUnity.Actions
 {
     // Extra action for making a MTSequence or MTSpawn when only adding one action to it.
     internal class MTExtraAction : MTFiniteTimeAction

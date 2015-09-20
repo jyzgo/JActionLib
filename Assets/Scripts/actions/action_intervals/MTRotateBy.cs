@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MTUnityAction
+namespace MTUnity.Actions
 {
     public class MTRotateBy : MTFiniteTimeAction
     {
@@ -58,9 +58,9 @@ namespace MTUnityAction
             AngleY = action.AngleY;
 			AngleZ = action.AngleZ;
 
-			StartAngleX = target.transform.rotation.x;
-			StartAngleY = target.transform.rotation.y;
-			StartAngleZ = target.transform.rotation.z;
+			StartAngleX = target.transform.localRotation.x;
+			StartAngleY = target.transform.localRotation.y;
+			StartAngleZ = target.transform.localRotation.z;
 
         }
 

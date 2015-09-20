@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MTUnityAction
+namespace MTUnity.Actions
 {
     public class MTShow : MTActionInstant
     {

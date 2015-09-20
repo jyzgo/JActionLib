@@ -3,7 +3,7 @@ using System;
 
 using UnityEngine;
 
-namespace MTUnityAction
+namespace MTUnity.Actions
 {
     public class MTSpawn : MTFiniteTimeAction
     {

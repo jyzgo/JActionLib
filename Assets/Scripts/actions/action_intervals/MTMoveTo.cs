@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MTUnityAction
+namespace MTUnity.Actions
 {
     public class MTMoveTo : MTMoveBy
     {
@@ -32,8 +32,8 @@ namespace MTUnityAction
         public MTMoveToState (MTMoveTo action, GameObject target)
             : base (action, target)
         { 
-			StartPosition = target.transform.position;
-			PositionDelta = action.PositionEnd - target.transform.position;
+			StartPosition = target.transform.localPosition;
+			PositionDelta = action.PositionEnd - target.transform.localPosition;
         }
 
         public override void Update (float time)
@@ -43,7 +43,7 @@ namespace MTUnityAction
 //				Vector3 currentPos = Target.transform.position;
 
                 Vector3 newPos = StartPosition + PositionDelta * time;
-				Target.transform.position = newPos;
+				Target.transform.localPosition = newPos;
                 PreviousPosition = newPos;
             }
         }

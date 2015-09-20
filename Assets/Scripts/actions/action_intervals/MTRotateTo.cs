@@ -2,7 +2,7 @@ using System;
 
 using UnityEngine;
 
-namespace MTUnityAction
+namespace MTUnity.Actions
 {
     public class MTRotateTo : MTFiniteTimeAction
     {
@@ -62,7 +62,7 @@ namespace MTUnityAction
 			DistanceAngleZ = action.DistanceAngleZ;
 
             // Calculate X
-			StartAngleX = Target.transform.rotation.x;
+			StartAngleX = Target.transform.localRotation.x;
             if (StartAngleX > 0)
             {
                 StartAngleX = StartAngleX % 360.0f;
@@ -83,7 +83,7 @@ namespace MTUnityAction
             }
 
             //Calculate Y: It's duplicated from calculating X since the rotation wrap should be the same
-			StartAngleY = Target.transform.rotation.y;
+			StartAngleY = Target.transform.localRotation.y;
 
             if (StartAngleY > 0)
             {
@@ -105,7 +105,7 @@ namespace MTUnityAction
                 DiffAngleY += 360;
             }
 
-			StartAngleZ = Target.transform.rotation.z;
+			StartAngleZ = Target.transform.localRotation.z;
 
 			if (StartAngleZ > 0)
 			{

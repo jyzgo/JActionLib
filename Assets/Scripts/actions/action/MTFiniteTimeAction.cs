@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace MTUnityAction
+namespace MTUnity.Actions
 {
     public abstract class MTFiniteTimeAction : MTAction
     {

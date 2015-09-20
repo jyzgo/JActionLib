@@ -1,6 +1,6 @@
 using System;
 
-namespace MTUnityAction
+namespace MTUnity.Actions
 {
 	internal static class MTEaseMath
     {
