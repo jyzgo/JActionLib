@@ -85,18 +85,38 @@ namespace MTUnity.Actions {
 
 		public static void Hide(this GameObject target)
 		{
-			if (target == null)
-				return;
 
-			var curRender = target.GetComponent<Renderer> ();
-			if (curRender == null)
-				return;
-			var curMat = curRender.material;
-			if (curMat == null)
-				return;
-			var curColor =  curMat.color;
+			float curA = 0f;
 			
-			target.GetComponent<Renderer> ().material.color = new Color(curColor.r,curColor.g,curColor.b,0f);
+			var render = target.GetComponent<Renderer>();
+			if (render != null)// && render.material.HasProperty("_Color")) 
+			{
+				if(render is SpriteRenderer)
+				{
+					SpriteRenderer curRender = render as SpriteRenderer;
+					
+					Color originColor = curRender.color;
+					var newColor = new Color (originColor.r,originColor.g,originColor.b,curA);
+					curRender.color = newColor;
+					
+					
+				}
+				else if (render.material != null && render.material.HasProperty("_Color"))
+				{
+					var originColor = render.material.color;
+					var newColor = new Color (originColor.r,originColor.g,originColor.b,curA);
+					render.material.color = newColor;
+					
+				}
+				
+				
+			}
+
+			int childCount = target.transform.childCount;
+			for (int i = 0; i < childCount; ++i) {
+				target.transform.GetChild(i).gameObject.Hide();
+			}
+
 		}
 
 
@@ -203,29 +223,41 @@ namespace MTUnity.Actions {
 		{
 			if (target) 
 			{
-				var render = target.GetComponent<Renderer>();
-				if (render && render.material) 
-				{
-					var originColor = render.material.color;
-					var newColor = new Color (originColor.r,originColor.g,originColor.b,curA);
-
-					target.GetComponent<Renderer> ().material.color = newColor;
-
-					var children = target.gameObject.GetComponentsInChildren<Transform> ();
-
-					for (int i = 0; i < children.Length; ++i) {
-						if(children[i].gameObject.GetInstanceID() != target.GetInstanceID())
-						{
-							//							var childOpacity = children [i].getOpacity ();
-							children [i].setOpacity (curA);
-						}
-
-					}
-				}
 
 				var convasGroup = target.GetComponent<CanvasGroup> ();
 				if (convasGroup != null) {
 					convasGroup.alpha = curA;
+					return;
+				}
+			
+
+				var render = target.GetComponent<Renderer>();
+				if (render != null)// && render.material.HasProperty("_Color")) 
+				{
+					if(render is SpriteRenderer)
+					{
+						SpriteRenderer curRender = render as SpriteRenderer;
+
+						Color originColor = curRender.color;
+						var newColor = new Color (originColor.r,originColor.g,originColor.b,curA);
+						curRender.color = newColor;
+						
+
+					}
+					else if (render.material != null && render.material.HasProperty("_Color"))
+					{
+						var originColor = render.material.color;
+						var newColor = new Color (originColor.r,originColor.g,originColor.b,curA);
+						render.material.color = newColor;
+
+					}
+
+
+				}
+
+				int childCount = target.transform.childCount;
+				for (int i = 0; i < childCount; ++i) {
+					target.transform.GetChild(i).gameObject.setOpacity(curA);
 				}
 
 			}
