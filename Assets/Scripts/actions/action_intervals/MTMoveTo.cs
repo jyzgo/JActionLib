@@ -40,8 +40,6 @@ namespace MTUnity.Actions
         {
             if (Target != null)
             {
-//				Vector3 currentPos = Target.transform.position;
-
                 Vector3 newPos = StartPosition + PositionDelta * time;
 				Target.transform.localPosition = newPos;
                 PreviousPosition = newPos;

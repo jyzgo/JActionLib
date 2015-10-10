@@ -34,7 +34,7 @@ namespace MTUnity.Actions
         public MTPlaceState (MTPlace action, GameObject target)
             : base (action, target)
         { 
-			Target.transform.position = action.Position;
+			Target.transform.localPosition = action.Position;
         }
 
     }
