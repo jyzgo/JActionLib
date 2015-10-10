@@ -197,10 +197,32 @@ namespace MTUnity.Actions {
 		{
 			if (target) 
 			{
+				var convasGroup = target.GetComponent<CanvasGroup> ();
+				if (convasGroup != null) {
+
+					return convasGroup.alpha ;
+				}
+				
+				
 				var render = target.GetComponent<Renderer>();
-				if (render && render.material) 
+				if (render != null)// && render.material.HasProperty("_Color")) 
 				{
-					return render.material.color.a;
+					if(render is SpriteRenderer)
+					{
+						SpriteRenderer curRender = render as SpriteRenderer;
+						
+						return curRender.color.a;
+						
+						
+					}
+					else if (render.material != null && render.material.HasProperty("_Color"))
+					{
+						var originColor = render.material.color;
+						return originColor.a;
+						
+					}
+					
+					
 				}
 
 			}

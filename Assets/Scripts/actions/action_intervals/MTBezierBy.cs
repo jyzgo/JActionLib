@@ -51,7 +51,7 @@ namespace MTUnity.Actions
             : base (action, target)
         { 
             BezierConfig = action.BezierConfig;
-			PreviousPosition = StartPosition = target.transform.position;
+            PreviousPosition = StartPosition = target.transform.localPosition;
         }
 
         public override void Update (float time)
@@ -77,12 +77,12 @@ namespace MTUnity.Actions
                 float y = MTSplineMath.CubicBezier (ya, yb, yc, yd, time);
                 float z = MTSplineMath.CubicBezier (za, zb, zc, zd, time);
 
-				Vector3 currentPos = Target.transform.position;
+                Vector3 currentPos = Target.transform.localPosition;
                 Vector3 diff = currentPos - PreviousPosition;
                 StartPosition = StartPosition + diff;
 
                 Vector3 newPos = StartPosition + new Vector3 (x, y,z);
-				Target.transform.position = newPos;
+                Target.transform.localPosition = newPos;
 
                 PreviousPosition = newPos;
             }
