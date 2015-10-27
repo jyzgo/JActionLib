@@ -12,6 +12,15 @@ namespace MTUnity.Actions
         {
             EndPosition = position;
         }
+        public static MTFiniteTimeAction Create(float duration,MonoBehaviour curMono)
+        {
+            if (curMono == null || curMono.gameObject == null)
+                return null;
+            var curTaget = curMono.gameObject.transform.localPosition;
+
+            var curMove = new MTMoveTo (duration, curTaget);
+            return curMove;
+        }
 
         #endregion Constructors
 
