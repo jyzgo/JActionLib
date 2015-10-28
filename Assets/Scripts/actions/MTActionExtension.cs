@@ -54,6 +54,9 @@ namespace MTUnity.Actions {
 		{
 			Debug.Assert(action != null, "Argument must be non-nil");
 
+			if(target == null)
+				return null;
+
 			GameObject curObj = target.gameObject;
 			return  curObj.RunAction (action);
 		}
@@ -68,6 +71,8 @@ namespace MTUnity.Actions {
 
 		public static MTActionState RunActions(this MonoBehaviour beh, params MTFiniteTimeAction[] actions)
 		{
+			if(beh == null)
+				return null;
 			GameObject curObj = beh.gameObject;
 			return curObj.RunActions (actions);
 		}
@@ -129,6 +134,8 @@ namespace MTUnity.Actions {
 
 		public static void StopAllActions(this MonoBehaviour target)
 		{
+			if(target == null)
+				return;
 			target.gameObject.StopAllActions ();
 		}
 
@@ -140,6 +147,8 @@ namespace MTUnity.Actions {
 
 		public static void StopAction(this MonoBehaviour target,MTActionState actionState)
 		{
+			if(target == null)
+				return;
 			target.gameObject.StopAction (actionState);
 		}
 
@@ -150,6 +159,8 @@ namespace MTUnity.Actions {
 		}
 		public static void StopAction(this MonoBehaviour target,int tag)
 		{
+			if(target == null)
+				return;
 			target.gameObject.StopAction (tag);
 		}
 
