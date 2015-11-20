@@ -45,6 +45,7 @@ namespace MTUnity.Actions
             if (null != CallFunctionND)
             {
                 CallFunctionND(Target, Data);
+				CallFunctionND = null;
             }
         }
     }

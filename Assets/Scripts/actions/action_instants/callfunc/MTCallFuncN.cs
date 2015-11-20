@@ -46,6 +46,7 @@ namespace MTUnity.Actions
             if (null != CallFunctionN)
             {
                 CallFunctionN(Target);
+				CallFunctionN = null;
             }
             //if (m_nScriptHandler) {
             //    MTScriptEngineManager::sharedManager()->getScriptEngine()->executeFunctionWithobject(m_nScriptHandler, m_pTarget, "GameObject");

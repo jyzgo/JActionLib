@@ -50,6 +50,7 @@ namespace MTUnity.Actions
             if (null != CallFunctionO)
             {
                 CallFunctionO(Object);
+				CallFunctionO = null;
             }
         }
     }
