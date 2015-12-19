@@ -190,8 +190,11 @@ namespace MTUnity.Actions
 //            targets.Keys.CopyTo(tmpKeysArray, 0);
 
 			tmpKeysArray.Clear();
-			tmpKeysArray.AddRange (targets.Keys);
-
+			var curEn = targets.GetEnumerator();
+			while(curEn.MoveNext())
+			{
+				tmpKeysArray.Add(curEn.Current.Key);
+			}
 
             for (int i = 0; i < count; i++)
             {

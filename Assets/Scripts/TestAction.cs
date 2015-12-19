@@ -67,12 +67,12 @@ public class TestAction : MonoBehaviour {
 
 		}
 
-		if (GUILayout.Button ("RotateTo")) {
-			resetObject ();
-			var roTo = new MTRotateTo (2, 3,2,3);
-			this.RunAction (roTo);
-
-		}
+//		if (GUILayout.Button ("RotateTo")) {
+//			resetObject ();
+////			var roTo = new MTRotateTo (2, 3,2,3);
+////			this.RunAction (roTo);
+//
+//		}
 
 		if (GUILayout.Button ("Sequence")) {
 			resetObject ();
@@ -90,8 +90,8 @@ public class TestAction : MonoBehaviour {
 
 			var jumpTo = new MTJumpTo(2,new Vector3(0,0,0),2,3);
 			var TintTo = new MTTintTo (3f, 0.2f, 1f, 3f);
-			var roTo = new MTRotateTo (2, 3,2,3);
-			var spawn = new MTSpawn(jumpTo,TintTo,roTo);
+//			var roTo = new MTRotateTo (2, 3,2,3);
+			var spawn = new MTSpawn(jumpTo,TintTo);
 
 			this.RunActions(spawn);
 
