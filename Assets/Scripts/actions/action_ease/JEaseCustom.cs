@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace JUnity.Actions
 {
-    public partial class MTEaseCustom : MTActionEase
+    public partial class JEaseCustom : JActionEase
     {
         public Func<float, float> EaseFunc { get; private set; }
 
 
         #region Constructors
 
-        public MTEaseCustom (JFiniteTimeAction action, Func<float, float> easeFunc) : base (action)
+        public JEaseCustom (JFiniteTimeAction action, Func<float, float> easeFunc) : base (action)
         {
             EaseFunc = easeFunc;
         }
@@ -21,23 +21,23 @@ namespace JUnity.Actions
 
         protected internal override JActionState StartAction(GameObject target)
         {
-            return new MTEaseCustomState (this, target);
+            return new JEaseCustomState (this, target);
         }
 
         public override JFiniteTimeAction Reverse ()
         {
-            return new MTReverseTime (this);
+            return new JReverseTime (this);
         }
     }
 
 
     #region Action state
 
-    public class MTEaseCustomState : MTActionEaseState
+    public class JEaseCustomState : JActionEaseState
     {
         protected Func<float, float> EaseFunc { get; private set; }
 
-        public MTEaseCustomState (MTEaseCustom action, GameObject target) : base (action, target)
+        public JEaseCustomState (JEaseCustom action, GameObject target) : base (action, target)
         {
             EaseFunc = action.EaseFunc;
         }

@@ -2,19 +2,19 @@ using UnityEngine;
 
 namespace JUnity.Actions
 {
-    public class MTEaseElastic : MTActionEase
+    public class JEaseElastic : JActionEase
     {
         public float Period { get; private set; }
 
 
         #region Constructors
 
-        public MTEaseElastic (JFiniteTimeAction action, float period) : base (action)
+        public JEaseElastic (JFiniteTimeAction action, float period) : base (action)
         {
             Period = period;
         }
 
-        public MTEaseElastic (JFiniteTimeAction action) : this (action, 0.3f)
+        public JEaseElastic (JFiniteTimeAction action) : this (action, 0.3f)
         {
         }
 
@@ -23,7 +23,7 @@ namespace JUnity.Actions
 
         protected internal override JActionState StartAction(GameObject target)
         {
-            return new MTEaseElasticState (this, target);
+            return new JEaseElasticState (this, target);
         }
 
         public override JFiniteTimeAction Reverse ()
@@ -35,11 +35,11 @@ namespace JUnity.Actions
 
     #region Action state
 
-    public class MTEaseElasticState : MTActionEaseState
+    public class JEaseElasticState : JActionEaseState
     {
         protected float Period { get; private set; }
 
-        public MTEaseElasticState (MTEaseElastic action, GameObject target) : base (action, target)
+        public JEaseElasticState (JEaseElastic action, GameObject target) : base (action, target)
         {
             Period = action.Period;
         }

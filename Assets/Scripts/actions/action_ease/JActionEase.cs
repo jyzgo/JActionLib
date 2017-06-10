@@ -2,14 +2,14 @@ using UnityEngine;
 
 namespace JUnity.Actions
 {
-    public class MTActionEase : JFiniteTimeAction
+    public class JActionEase : JFiniteTimeAction
     {
         protected internal JFiniteTimeAction InnerAction { get; private set; }
 
 
         #region Constructors
 
-        public MTActionEase(JFiniteTimeAction action) : base (action.Duration)
+        public JActionEase(JFiniteTimeAction action) : base (action.Duration)
         {
             InnerAction = action;
         }
@@ -19,23 +19,23 @@ namespace JUnity.Actions
 
         protected internal override JActionState StartAction(GameObject target)
         {
-            return new MTActionEaseState (this, target);
+            return new JActionEaseState (this, target);
         }
 
         public override JFiniteTimeAction Reverse()
         {
-            return new MTActionEase ((JFiniteTimeAction)InnerAction.Reverse ());
+            return new JActionEase ((JFiniteTimeAction)InnerAction.Reverse ());
         }
     }
 
 
     #region Action state
 
-    public class MTActionEaseState : JFiniteTimeActionState
+    public class JActionEaseState : JFiniteTimeActionState
     {
         protected JFiniteTimeActionState InnerActionState { get; private set; }
 
-        public MTActionEaseState (MTActionEase action, GameObject target) : base (action, target)
+        public JActionEaseState (JActionEase action, GameObject target) : base (action, target)
         {
             InnerActionState = (JFiniteTimeActionState)action.InnerAction.StartAction (target);
         }

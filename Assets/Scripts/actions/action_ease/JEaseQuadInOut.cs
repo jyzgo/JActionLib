@@ -2,32 +2,32 @@
 
 namespace JUnity.Actions
 {
-	public class MTEaseQuadInOut : MTActionEase
+	public class JEaseQuadInOut : JActionEase
 	{
-		public MTEaseQuadInOut (JFiniteTimeAction action) : base (action)
+		public JEaseQuadInOut (JFiniteTimeAction action) : base (action)
 		{
 		}
 
 		protected internal override JActionState StartAction (GameObject target)
 		{
-			return new MTEaseQuadInOutState (this, target);
+			return new JEaseQuadInOutState (this, target);
 		}
 
 		public override JFiniteTimeAction Reverse ()
 		{
-			return new MTEaseQuadInOut ((JFiniteTimeAction)InnerAction.Reverse ());
+			return new JEaseQuadInOut ((JFiniteTimeAction)InnerAction.Reverse ());
 		}
 	}
 
-	public class MTEaseQuadInOutState : MTActionEaseState
+	public class JEaseQuadInOutState : JActionEaseState
 	{
-		public MTEaseQuadInOutState (MTEaseQuadInOut action, GameObject target) : base (action, target)
+		public JEaseQuadInOutState (JEaseQuadInOut action, GameObject target) : base (action, target)
 		{
 		}
 
 		public override void Update (float time)
 		{
-			InnerActionState.Update (MTEaseMath.QuadInOut (time));
+			InnerActionState.Update (JEaseMath.QuadInOut (time));
 		}
 	}
 

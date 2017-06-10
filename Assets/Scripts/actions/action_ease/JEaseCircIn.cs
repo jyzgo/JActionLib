@@ -2,32 +2,32 @@
 
 namespace JUnity.Actions
 {
-	public class MTEaseCircIn : MTActionEase
+	public class JEaseCircIn : JActionEase
 	{
-		public MTEaseCircIn (JFiniteTimeAction action) : base (action)
+		public JEaseCircIn (JFiniteTimeAction action) : base (action)
 		{
 		}
 
 		protected internal override JActionState StartAction (GameObject target)
 		{
-			return new MTEaseCircInState (this, target);
+			return new JEaseCircInState (this, target);
 		}
 
 		public override JFiniteTimeAction Reverse ()
 		{
-			return new MTEaseCircOut ((JFiniteTimeAction)InnerAction.Reverse ());
+			return new JEaseCircOut ((JFiniteTimeAction)InnerAction.Reverse ());
 		}
 	}
 
-	public class MTEaseCircInState : MTActionEaseState
+	public class JEaseCircInState : JActionEaseState
 	{
-		public MTEaseCircInState (MTEaseCircIn action, GameObject target) : base (action, target)
+		public JEaseCircInState (JEaseCircIn action, GameObject target) : base (action, target)
 		{
 		}
 
 		public override void Update (float time)
 		{
-			InnerActionState.Update (MTEaseMath.CircIn (time));
+			InnerActionState.Update (JEaseMath.CircIn (time));
 		}
 	}
 

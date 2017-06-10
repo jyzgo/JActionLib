@@ -2,14 +2,14 @@ using UnityEngine;
 
 namespace JUnity.Actions
 {
-    public class MTEaseRateAction : MTActionEase
+    public class JEaseRateAction : JActionEase
     {
         public float Rate { get; private set; }
 
 
         #region Constructors
 
-        public MTEaseRateAction (JFiniteTimeAction action, float rate) : base (action)
+        public JEaseRateAction (JFiniteTimeAction action, float rate) : base (action)
         {
             Rate = rate;
         }
@@ -19,30 +19,30 @@ namespace JUnity.Actions
 
         protected internal override JActionState StartAction(GameObject target)
         {
-            return new MTEaseRateActionState (this, target);
+            return new JEaseRateActionState (this, target);
         }
 
         public override JFiniteTimeAction Reverse ()
         {
-            return new MTEaseRateAction ((JFiniteTimeAction)InnerAction.Reverse (), 1 / Rate);
+            return new JEaseRateAction ((JFiniteTimeAction)InnerAction.Reverse (), 1 / Rate);
         }
     }
 
 
     #region Action state
 
-    public class MTEaseRateActionState : MTActionEaseState
+    public class JEaseRateActionState : JActionEaseState
     {
         protected float Rate { get; private set; }
 
-        public MTEaseRateActionState (MTEaseRateAction action, GameObject target) : base (action, target)
+        public JEaseRateActionState (JEaseRateAction action, GameObject target) : base (action, target)
         {
             Rate = action.Rate;
         }
 
         public override void Update (float time)
         {
-            InnerActionState.Update (MTEaseMath.ExpoOut (time));
+            InnerActionState.Update (JEaseMath.ExpoOut (time));
         }
     }
 

@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace JUnity.Actions
 {
-    public class MTEaseSineOut : MTActionEase
+    public class JEaseSineOut : JActionEase
     {
         #region Constructors
 
-        public MTEaseSineOut (JFiniteTimeAction action) : base (action)
+        public JEaseSineOut (JFiniteTimeAction action) : base (action)
         {
         }
 
@@ -17,27 +17,27 @@ namespace JUnity.Actions
 
         protected internal override JActionState StartAction(GameObject target)
         {
-            return new MTEaseSineOutState (this, target);
+            return new JEaseSineOutState (this, target);
         }
 
         public override JFiniteTimeAction Reverse ()
         {
-            return new MTEaseSineIn ((JFiniteTimeAction)InnerAction.Reverse ());
+            return new JEaseSineIn ((JFiniteTimeAction)InnerAction.Reverse ());
         }
     }
 
 
     #region Action state
 
-    public class MTEaseSineOutState : MTActionEaseState
+    public class JEaseSineOutState : JActionEaseState
     {
-        public MTEaseSineOutState (MTEaseSineOut action, GameObject target) : base (action, target)
+        public JEaseSineOutState (JEaseSineOut action, GameObject target) : base (action, target)
         {
         }
 
         public override void Update (float time)
         {
-            InnerActionState.Update (MTEaseMath.SineOut (time));
+            InnerActionState.Update (JEaseMath.SineOut (time));
         }
     }
 

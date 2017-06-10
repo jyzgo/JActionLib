@@ -7,15 +7,15 @@ using UnityEngine;
 
 namespace JUnity.Actions
 {
-    public class MTEaseElasticInOut : MTEaseElastic
+    public class JEaseElasticInOut : JEaseElastic
     {
         #region Constructors
 
-        public MTEaseElasticInOut (JFiniteTimeAction action) : this (action, 0.3f)
+        public JEaseElasticInOut (JFiniteTimeAction action) : this (action, 0.3f)
         {
         }
 
-        public MTEaseElasticInOut (JFiniteTimeAction action, float period) : base (action, period)
+        public JEaseElasticInOut (JFiniteTimeAction action, float period) : base (action, period)
         {
         }
 
@@ -24,27 +24,27 @@ namespace JUnity.Actions
 
         protected internal override JActionState StartAction(GameObject target)
         {
-            return new MTEaseElasticInOutState (this, target);
+            return new JEaseElasticInOutState (this, target);
         }
 
         public override JFiniteTimeAction Reverse ()
         {
-            return new MTEaseElasticInOut ((JFiniteTimeAction)InnerAction.Reverse (), Period);
+            return new JEaseElasticInOut ((JFiniteTimeAction)InnerAction.Reverse (), Period);
         }
     }
 
 
     #region Action state
 
-    public class MTEaseElasticInOutState : MTEaseElasticState
+    public class JEaseElasticInOutState : JEaseElasticState
     {
-        public MTEaseElasticInOutState (MTEaseElasticInOut action, GameObject target) : base (action, target)
+        public JEaseElasticInOutState (JEaseElasticInOut action, GameObject target) : base (action, target)
         {
         }
 
         public override void Update (float time)
         {
-            InnerActionState.Update (MTEaseMath.ElasticInOut (time, Period));
+            InnerActionState.Update (JEaseMath.ElasticInOut (time, Period));
         }
     }
 

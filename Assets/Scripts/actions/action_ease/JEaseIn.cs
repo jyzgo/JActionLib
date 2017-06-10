@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace JUnity.Actions
 {
-    public class MTEaseIn : MTEaseRateAction
+    public class JEaseIn : JEaseRateAction
     {
         #region Constructors
 
-        public MTEaseIn (JFiniteTimeAction action, float rate) : base (action, rate)
+        public JEaseIn (JFiniteTimeAction action, float rate) : base (action, rate)
         {
         }
 
@@ -17,21 +17,21 @@ namespace JUnity.Actions
 
         protected internal override JActionState StartAction(GameObject target)
         {
-            return new MTEaseInState (this, target);
+            return new JEaseInState (this, target);
         }
 
         public override JFiniteTimeAction Reverse ()
         {
-            return new MTEaseIn ((JFiniteTimeAction)InnerAction.Reverse (), 1 / Rate);
+            return new JEaseIn ((JFiniteTimeAction)InnerAction.Reverse (), 1 / Rate);
         }
     }
 
 
     #region Action state
 
-    public class MTEaseInState : MTEaseRateActionState
+    public class JEaseInState : JEaseRateActionState
     {
-        public MTEaseInState (MTEaseIn action, GameObject target) : base (action, target)
+        public JEaseInState (JEaseIn action, GameObject target) : base (action, target)
         {
         }
 
