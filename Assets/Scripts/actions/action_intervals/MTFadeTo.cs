@@ -2,16 +2,16 @@
 
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-    public class MTFadeTo : MTFiniteTimeAction
+    public class MTFadeTo : JFiniteTimeAction
     {
-        public byte ToOpacity { get; private set; }
+        public float ToOpacity { get; private set; }
 
 
         #region Constructors
 
-        public MTFadeTo (float duration, byte opacity) : base (duration)
+        public MTFadeTo (float duration, float opacity) : base (duration)
         {
             ToOpacity = opacity;
         }
@@ -19,19 +19,19 @@ namespace MTUnity.Actions
         #endregion Constructors
 
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTFadeToState (this, target);
 
         }
 
-        public override MTFiniteTimeAction Reverse()
+        public override JFiniteTimeAction Reverse()
         {
             throw new NotImplementedException();
         }
     }
 
-    public class MTFadeToState : MTFiniteTimeActionState
+    public class MTFadeToState : JFiniteTimeActionState
     {
 		protected float FromOpacity { get; set; }
 

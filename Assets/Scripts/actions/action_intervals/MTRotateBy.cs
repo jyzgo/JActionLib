@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-    public class MTRotateBy : MTFiniteTimeAction
+    public class MTRotateBy : JFiniteTimeAction
     {
         public float AngleX { get; private set; }
         public float AngleY { get; private set; }
@@ -24,19 +24,19 @@ namespace MTUnity.Actions
 
         #endregion Constructors
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTRotateByState (this, target);
 
         }
 
-        public override MTFiniteTimeAction Reverse ()
+        public override JFiniteTimeAction Reverse ()
         {
 			return new MTRotateBy (Duration, -AngleX, -AngleY,-AngleZ);
         }
     }
 
-    public class MTRotateByState : MTFiniteTimeActionState
+    public class MTRotateByState : JFiniteTimeActionState
     {
 
         protected float AngleX { get; set; }

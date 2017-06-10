@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-    public class MTTintTo : MTFiniteTimeAction
+    public class MTTintTo : JFiniteTimeAction
     {
         public Color ColorTo { get; private set; }
 
@@ -16,18 +16,18 @@ namespace MTUnity.Actions
 
         #endregion Constructors
 
-        public override MTFiniteTimeAction Reverse()
+        public override JFiniteTimeAction Reverse()
         {
             throw new System.NotImplementedException ();
         }
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTTintToState (this, target);
         }
     }
 
-    public class MTTintToState : MTFiniteTimeActionState
+    public class MTTintToState : JFiniteTimeActionState
     {
         protected Color ColorFrom { get; set; }
 

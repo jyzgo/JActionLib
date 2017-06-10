@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
     public static class MTMathHelper
     {

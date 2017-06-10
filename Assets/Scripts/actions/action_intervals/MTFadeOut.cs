@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-    public class MTFadeOut : MTFiniteTimeAction
+    public class MTFadeOut : JFiniteTimeAction
     {
         #region Constructors
 
@@ -12,19 +12,19 @@ namespace MTUnity.Actions
 
         #endregion Constructors
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTFadeOutState (this, target);
 
         }
 
-        public override MTFiniteTimeAction Reverse ()
+        public override JFiniteTimeAction Reverse ()
         {
             return new MTFadeIn (Duration);
         }
     }
 
-    public class MTFadeOutState : MTFiniteTimeActionState
+    public class MTFadeOutState : JFiniteTimeActionState
     {
 
         public MTFadeOutState (MTFadeOut action, GameObject target)

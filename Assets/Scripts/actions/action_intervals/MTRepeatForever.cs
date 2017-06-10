@@ -2,23 +2,23 @@
 
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-    public class MTRepeatForever : MTFiniteTimeAction
+    public class MTRepeatForever : JFiniteTimeAction
     {
-        public MTFiniteTimeAction InnerAction { get; private set; }
+        public JFiniteTimeAction InnerAction { get; private set; }
 
 
         #region Constructors
 
-        public MTRepeatForever (params MTFiniteTimeAction[] actions)
+        public MTRepeatForever (params JFiniteTimeAction[] actions)
         {
             Debug.Assert (actions != null);
             InnerAction = new MTSequence (actions);
 
         }
 
-        public MTRepeatForever (MTFiniteTimeAction action)
+        public MTRepeatForever (JFiniteTimeAction action)
         {
             Debug.Assert (action != null);
             InnerAction = action;
@@ -26,30 +26,30 @@ namespace MTUnity.Actions
 
         #endregion Constructors
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTRepeatForeverState (this, target);
 
         }
 
-        public override MTFiniteTimeAction Reverse ()
+        public override JFiniteTimeAction Reverse ()
         {
-            return new MTRepeatForever (InnerAction.Reverse () as MTFiniteTimeAction);
+            return new MTRepeatForever (InnerAction.Reverse () as JFiniteTimeAction);
         }
     }
 
-    public class MTRepeatForeverState : MTFiniteTimeActionState
+    public class MTRepeatForeverState : JFiniteTimeActionState
     {
 
-        private MTFiniteTimeAction InnerAction { get; set; }
+        private JFiniteTimeAction InnerAction { get; set; }
 
-        private MTFiniteTimeActionState InnerActionState { get; set; }
+        private JFiniteTimeActionState InnerActionState { get; set; }
 
         public MTRepeatForeverState (MTRepeatForever action, GameObject target)
             : base (action, target)
         { 
             InnerAction = action.InnerAction;
-            InnerActionState = (MTFiniteTimeActionState)InnerAction.StartAction (target);
+            InnerActionState = (JFiniteTimeActionState)InnerAction.StartAction (target);
         }
 
         protected internal override void Step (float dt)
@@ -59,7 +59,7 @@ namespace MTUnity.Actions
             if (InnerActionState.IsDone)
             {
                 float diff = InnerActionState.Elapsed - InnerActionState.Duration;
-                InnerActionState = (MTFiniteTimeActionState)InnerAction.StartAction (Target);
+                InnerActionState = (JFiniteTimeActionState)InnerAction.StartAction (Target);
                 InnerActionState.Step (0f);
                 InnerActionState.Step (diff);
             }

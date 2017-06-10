@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-    public class MTDelayTime : MTFiniteTimeAction
+    public class MTDelayTime : JFiniteTimeAction
     {
         #region Constructors
 
@@ -12,19 +12,19 @@ namespace MTUnity.Actions
 
         #endregion Constructors
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTDelayTimeState (this, target);
 
         }
 
-        public override MTFiniteTimeAction Reverse ()
+        public override JFiniteTimeAction Reverse ()
         {
             return new MTDelayTime (Duration);
         }
     }
 
-    public class MTDelayTimeState : MTFiniteTimeActionState
+    public class MTDelayTimeState : JFiniteTimeActionState
     {
 
         public MTDelayTimeState (MTDelayTime action, GameObject target)

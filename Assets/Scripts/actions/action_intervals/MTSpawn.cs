@@ -3,26 +3,26 @@ using System;
 
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-    public class MTSpawn : MTFiniteTimeAction
+    public class MTSpawn : JFiniteTimeAction
     {
-        public MTFiniteTimeAction ActionOne { get; protected set; }
-        public MTFiniteTimeAction ActionTwo { get; protected set; }
+        public JFiniteTimeAction ActionOne { get; protected set; }
+        public JFiniteTimeAction ActionTwo { get; protected set; }
 
 
         #region Constructors
 
-        protected MTSpawn (MTFiniteTimeAction action1, MTFiniteTimeAction action2)
+        protected MTSpawn (JFiniteTimeAction action1, JFiniteTimeAction action2)
             : base (Math.Max (action1.Duration, action2.Duration))
         {
             InitMTSpawn (action1, action2);
         }
 
-        public MTSpawn (params MTFiniteTimeAction[] actions)
+        public MTSpawn (params JFiniteTimeAction[] actions)
         {
-            MTFiniteTimeAction prev = actions [0];
-            MTFiniteTimeAction next = null;
+            JFiniteTimeAction prev = actions [0];
+            JFiniteTimeAction next = null;
 
             if (actions.Length == 1)
             {
@@ -48,7 +48,7 @@ namespace MTUnity.Actions
             }
         }
 
-        private void InitMTSpawn (MTFiniteTimeAction action1, MTFiniteTimeAction action2)
+        private void InitMTSpawn (JFiniteTimeAction action1, JFiniteTimeAction action2)
         {
             Debug.Assert (action1 != null);
             Debug.Assert (action2 != null);
@@ -72,28 +72,28 @@ namespace MTUnity.Actions
         #endregion Constructors
 
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTSpawnState (this, target);
 
         }
 
-        public override MTFiniteTimeAction Reverse ()
+        public override JFiniteTimeAction Reverse ()
         {
             return new MTSpawn (ActionOne.Reverse (), ActionTwo.Reverse ());
         }
     }
 
-    public class MTSpawnState : MTFiniteTimeActionState
+    public class MTSpawnState : JFiniteTimeActionState
     {
 
-        protected MTFiniteTimeAction ActionOne { get; set; }
+        protected JFiniteTimeAction ActionOne { get; set; }
 
-        private MTFiniteTimeActionState ActionStateOne { get; set; }
+        private JFiniteTimeActionState ActionStateOne { get; set; }
 
-        protected MTFiniteTimeAction ActionTwo { get; set; }
+        protected JFiniteTimeAction ActionTwo { get; set; }
 
-        private MTFiniteTimeActionState ActionStateTwo { get; set; }
+        private JFiniteTimeActionState ActionStateTwo { get; set; }
 
         public MTSpawnState (MTSpawn action, GameObject target)
             : base (action, target)
@@ -101,8 +101,8 @@ namespace MTUnity.Actions
             ActionOne = action.ActionOne;
             ActionTwo = action.ActionTwo;
 
-            ActionStateOne = (MTFiniteTimeActionState)ActionOne.StartAction (target);
-            ActionStateTwo = (MTFiniteTimeActionState)ActionTwo.StartAction (target);
+            ActionStateOne = (JFiniteTimeActionState)ActionOne.StartAction (target);
+            ActionStateTwo = (JFiniteTimeActionState)ActionTwo.StartAction (target);
         }
 
         protected internal override void Stop ()

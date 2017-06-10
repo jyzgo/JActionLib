@@ -2,9 +2,9 @@ using System;
 
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-    public class MTBezierBy : MTFiniteTimeAction
+    public class MTBezierBy : JFiniteTimeAction
     {
         public MTBezierConfig BezierConfig { get; private set; }
 
@@ -19,13 +19,13 @@ namespace MTUnity.Actions
         #endregion Constructors
 
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTBezierByState (this, target);
 
         }
 
-        public override MTFiniteTimeAction Reverse ()
+        public override JFiniteTimeAction Reverse ()
         {
             MTBezierConfig r;
 
@@ -38,7 +38,7 @@ namespace MTUnity.Actions
         }
     }
 
-    public class MTBezierByState : MTFiniteTimeActionState
+    public class MTBezierByState : JFiniteTimeActionState
     {
         protected MTBezierConfig BezierConfig { get; set; }
 
@@ -51,7 +51,7 @@ namespace MTUnity.Actions
             : base (action, target)
         { 
             BezierConfig = action.BezierConfig;
-            PreviousPosition = StartPosition = target.transform.localPosition;
+			PreviousPosition = StartPosition = target.transform.localPosition;
         }
 
         public override void Update (float time)
@@ -77,12 +77,12 @@ namespace MTUnity.Actions
                 float y = MTSplineMath.CubicBezier (ya, yb, yc, yd, time);
                 float z = MTSplineMath.CubicBezier (za, zb, zc, zd, time);
 
-                Vector3 currentPos = Target.transform.localPosition;
+				Vector3 currentPos = Target.transform.localPosition;
                 Vector3 diff = currentPos - PreviousPosition;
                 StartPosition = StartPosition + diff;
 
                 Vector3 newPos = StartPosition + new Vector3 (x, y,z);
-                Target.transform.localPosition = newPos;
+				Target.transform.localPosition = newPos;
 
                 PreviousPosition = newPos;
             }

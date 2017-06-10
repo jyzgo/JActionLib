@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-    public class MTScaleTo : MTFiniteTimeAction
+    public class MTScaleTo : JFiniteTimeAction
     {
         public float EndScaleX { get; private set; }
         public float EndScaleY { get; private set; }
@@ -13,7 +13,11 @@ namespace MTUnity.Actions
 
 		public MTScaleTo (float duration, float scale) : this (duration, scale, scale,scale)
         {
-        }
+		}
+
+		public MTScaleTo (float duration, Vector3 scale) : this (duration, scale.x, scale.y, scale.z)
+		{
+		}
 
 		public MTScaleTo (float duration, float scaleX, float scaleY,float scaleZ) : base (duration)
         {
@@ -24,18 +28,18 @@ namespace MTUnity.Actions
 
         #endregion Constructors
 
-        public override MTFiniteTimeAction Reverse()
+        public override JFiniteTimeAction Reverse()
         {
             throw new System.NotImplementedException ();
         }
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTScaleToState (this, target);
         }
     }
 
-    public class MTScaleToState : MTFiniteTimeActionState
+    public class MTScaleToState : JFiniteTimeActionState
     {
         protected float DeltaX;
         protected float DeltaY;
@@ -52,6 +56,10 @@ namespace MTUnity.Actions
         public MTScaleToState (MTScaleTo action, GameObject target)
             : base (action, target)
         { 
+			if(target == null)
+			{
+				return;
+			}
 			StartScaleX = target.transform.localScale.x;
 			StartScaleY = target.transform.localScale.y;
 			StartScaleZ = target.transform.localScale.z;

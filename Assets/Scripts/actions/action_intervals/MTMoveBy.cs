@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-    public class MTMoveBy : MTFiniteTimeAction
+    public class MTMoveBy : JFiniteTimeAction
     {
         #region Constructors
 
@@ -15,28 +15,35 @@ namespace MTUnity.Actions
 
         public Vector3 PositionDelta { get; private set; }
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTMoveByState (this, target);
         }
 
-        public override MTFiniteTimeAction Reverse ()
+        public override JFiniteTimeAction Reverse ()
         {
 			return new MTMoveBy (Duration, new Vector3 (-PositionDelta.x, -PositionDelta.y,-PositionDelta.z));
         }
     }
 
-    public class MTMoveByState : MTFiniteTimeActionState
+    public class MTMoveByState : JFiniteTimeActionState
     {
         protected Vector3 PositionDelta;
         protected Vector3 EndPosition;
         protected Vector3 StartPosition;
-        protected Vector3 PreviousPosition;
+		public Vector3 PreviousPosition {
+			get;
+			protected set;
+		}
 
         public MTMoveByState (MTMoveBy action, GameObject target)
             : base (action, target)
         { 
 			PositionDelta = action.PositionDelta;
+			if(target == null)
+			{
+				return;
+			}
 			PreviousPosition = StartPosition = target.transform.localPosition;
         }
 
@@ -48,9 +55,9 @@ namespace MTUnity.Actions
 			var currentPos = Target.transform.localPosition;
             var diff = currentPos - PreviousPosition;
             StartPosition = StartPosition + diff;
-            Vector3 newPos = StartPosition + PositionDelta * time;
+			Vector3 newPos = StartPosition + PositionDelta * time;
+			PreviousPosition = newPos;
 			Target.transform.localPosition = newPos;
-            PreviousPosition = newPos;
         }
     }
 

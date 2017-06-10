@@ -1,25 +1,18 @@
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
     public class MTMoveTo : MTMoveBy
     {
         protected Vector3 EndPosition;
 
+		bool _isWorld = false;
         #region Constructors
 
-        public MTMoveTo (float duration, Vector3 position) : base (duration, position)
+		public MTMoveTo (float duration, Vector3 position,bool isWorld = false) : base (duration, position)
         {
             EndPosition = position;
-        }
-        public static MTFiniteTimeAction Create(float duration,MonoBehaviour curMono)
-        {
-            if (curMono == null || curMono.gameObject == null)
-                return null;
-            var curTaget = curMono.gameObject.transform.localPosition;
-
-            var curMove = new MTMoveTo (duration, curTaget);
-            return curMove;
+			_isWorld = isWorld;
         }
 
         #endregion Constructors
@@ -28,30 +21,52 @@ namespace MTUnity.Actions
             get { return EndPosition; }
         }
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
-            return new MTMoveToState (this, target);
+			return new MTMoveToState (this, target,_isWorld);
 
         }
     }
 
     public class MTMoveToState : MTMoveByState
-    {
+	{
+		public bool IsWorld {
+			get;
+			protected set;
+		}
 
-        public MTMoveToState (MTMoveTo action, GameObject target)
+		public MTMoveToState (MTMoveTo action, GameObject target,bool isWorld)
             : base (action, target)
         { 
-			StartPosition = target.transform.localPosition;
-			PositionDelta = action.PositionEnd - target.transform.localPosition;
+			if(target == null)
+			{
+				return;
+			}
+			IsWorld = isWorld;
+			if(isWorld)
+			{
+				StartPosition = target.transform.position;
+				PositionDelta = action.PositionEnd - target.transform.position;
+			}else
+			{
+				StartPosition = target.transform.localPosition;
+				PositionDelta = action.PositionEnd - target.transform.localPosition;
+			}
         }
 
         public override void Update (float time)
         {
             if (Target != null)
             {
-                Vector3 newPos = StartPosition + PositionDelta * time;
-				Target.transform.localPosition = newPos;
-                PreviousPosition = newPos;
+				Vector3 newPos = StartPosition + PositionDelta * time;
+				PreviousPosition = newPos;
+				if(IsWorld)
+				{
+					Target.transform.position = newPos;
+				}else
+				{
+					Target.transform.localPosition = newPos;
+				}
             }
         }
     }

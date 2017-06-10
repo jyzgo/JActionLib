@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
     public class MTCallFuncN : MTCallFunc
     {
@@ -22,7 +22,7 @@ namespace MTUnity.Actions
         #endregion Constructors
 
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTCallFuncNState (this, target);
 

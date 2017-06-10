@@ -1,55 +1,60 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-	public class MTScaleParticleTo : MTFiniteTimeAction
+	public class MTScaleParticleTo : JFiniteTimeAction
 	{
 		public float EndScale { get; private set; }
+		public float StartScale{get; private set;}
 				
 		
 		#region Constructors
 		
-		public MTScaleParticleTo (float duration, float scale) 
+		public MTScaleParticleTo (float duration, float startScale,float endScale) 
 		{
-			EndScale = scale;
+			EndScale = endScale;
+			StartScale = startScale;
 		}
 		
 
 		
 		#endregion Constructors
 		
-		public override MTFiniteTimeAction Reverse()
+		public override JFiniteTimeAction Reverse()
 		{
 			throw new System.NotImplementedException ();
 		}
 		
-		protected internal override MTActionState StartAction(GameObject target)
+		protected internal override JActionState StartAction(GameObject target)
 		{
 			return new MTScaleToParticleState (this, target);
 		}
 	}
 	
-	public class MTScaleToParticleState : MTFiniteTimeActionState
+	public class MTScaleToParticleState : JFiniteTimeActionState
 	{
-		protected float DeltaX;
+		protected float Delta;
 
 		
-		protected float EndScaleX;
+		protected float EndScale;
 
 		
-		protected float StartScaleX;
+		protected float StartScale;
+
+		protected float OriginSize;
 
 		
 		public MTScaleToParticleState (MTScaleParticleTo action, GameObject target)
 			: base (action, target)
 		{ 
-			StartScaleX = 1f;// target.transform.localScale.x;
+			StartScale = action.StartScale; // target.transform.localScale.x;
+
+			OriginSize = target.GetParticleStartSize();
+			
+			EndScale = action.EndScale;
 
 			
-			EndScaleX = action.EndScale;
-
-			
-			DeltaX = EndScaleX - StartScaleX;
+			Delta = EndScale - StartScale;
 
 		}
 		
@@ -57,8 +62,8 @@ namespace MTUnity.Actions
 		{
 			if (Target != null)
 			{
-				var Scale = StartScaleX + DeltaX * time;
-				Target.SetParticleScale(Scale);
+				var Scale = StartScale + Delta * time;
+				Target.SetParticleSize(Scale * OriginSize);
 			}
 		}
 	}

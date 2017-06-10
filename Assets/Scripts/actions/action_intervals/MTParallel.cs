@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-    public class MTParallel : MTFiniteTimeAction
+    public class MTParallel : JFiniteTimeAction
     {
-        public MTFiniteTimeAction[] Actions { get; private set; }
+        public JFiniteTimeAction[] Actions { get; private set; }
 
         #region Constructors
 
-        public MTParallel (params MTFiniteTimeAction[] actions) : base ()
+        public MTParallel (params JFiniteTimeAction[] actions) : base ()
         {
             // Can't call base(duration) because max action duration needs to be determined here
             float maxDuration = 0.0f;
@@ -44,15 +44,15 @@ namespace MTUnity.Actions
         #endregion Constructors
 
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTParallelState (this, target);
 
         }
 
-        public override MTFiniteTimeAction Reverse ()
+        public override JFiniteTimeAction Reverse ()
         {
-            MTFiniteTimeAction[] rev = new MTFiniteTimeAction[Actions.Length];
+            JFiniteTimeAction[] rev = new JFiniteTimeAction[Actions.Length];
             for (int i = 0; i < Actions.Length; i++)
             {
                 rev [i] = Actions [i].Reverse ();
@@ -63,22 +63,22 @@ namespace MTUnity.Actions
 
     }
 
-    public class MTParallelState : MTFiniteTimeActionState
+    public class MTParallelState : JFiniteTimeActionState
     {
 
-        protected MTFiniteTimeAction[] Actions { get; set; }
+        protected JFiniteTimeAction[] Actions { get; set; }
 
-        protected MTFiniteTimeActionState[] ActionStates { get; set; }
+        protected JFiniteTimeActionState[] ActionStates { get; set; }
 
         public MTParallelState (MTParallel action, GameObject target)
             : base (action, target)
         {   
             Actions = action.Actions;
-            ActionStates = new MTFiniteTimeActionState[Actions.Length];
+            ActionStates = new JFiniteTimeActionState[Actions.Length];
 
             for (int i = 0; i < Actions.Length; i++)
             {
-                ActionStates [i] = (MTFiniteTimeActionState)Actions [i].StartAction (target);
+                ActionStates [i] = (JFiniteTimeActionState)Actions [i].StartAction (target);
             }
         }
 

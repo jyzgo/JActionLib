@@ -2,16 +2,16 @@
 
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-    public class MTReverseTime : MTFiniteTimeAction
+    public class MTReverseTime : JFiniteTimeAction
     {
-        public MTFiniteTimeAction Other { get; private set; }
+        public JFiniteTimeAction Other { get; private set; }
 
 
         #region Constructors
 
-        public MTReverseTime (MTFiniteTimeAction action) : base (action.Duration)
+        public MTReverseTime (JFiniteTimeAction action) : base (action.Duration)
         {
             Other = action;
         }
@@ -19,30 +19,30 @@ namespace MTUnity.Actions
         #endregion Constructors
 
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTReverseTimeState (this, target);
 
         }
 
-        public override MTFiniteTimeAction Reverse ()
+        public override JFiniteTimeAction Reverse ()
         {
             return Other;
         }
     }
 
-    public class MTReverseTimeState : MTFiniteTimeActionState
+    public class MTReverseTimeState : JFiniteTimeActionState
     {
 
-        protected MTFiniteTimeAction Other { get; set; }
+        protected JFiniteTimeAction Other { get; set; }
 
-        protected MTFiniteTimeActionState OtherState { get; set; }
+        protected JFiniteTimeActionState OtherState { get; set; }
 
         public MTReverseTimeState (MTReverseTime action, GameObject target)
             : base (action, target)
         {   
             Other = action.Other;
-            OtherState = (MTFiniteTimeActionState)Other.StartAction (target);
+            OtherState = (JFiniteTimeActionState)Other.StartAction (target);
         }
 
         protected internal override void Stop ()

@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
-namespace MTUnity.Actions {
+
+namespace JUnity.Actions {
 	public static class MTActionExtension  {
 		
 		
@@ -16,41 +18,41 @@ namespace MTUnity.Actions {
 			return isActive;
 		}
 		
-		public static void AddAction(this GameObject target,MTAction action, bool paused = false)
+		public static void AddAction(this GameObject target,JAction action, bool paused = false)
 		{
-			if (MTActionManager.instance != null)
-				MTActionManager.instance.AddAction(action, target, paused);
+			if (MTActionManager.Instance != null)
+				MTActionManager.Instance.AddAction(action, target, paused);
 			
 		}
 		
-		public static void AddActions(this GameObject target,bool paused, params MTFiniteTimeAction[] actions)
+		public static void AddActions(this GameObject target,bool paused, params JFiniteTimeAction[] actions)
 		{
-			if (MTActionManager.instance != null)
-				MTActionManager.instance.AddAction(new MTSequence(actions), target, paused);
+			if (MTActionManager.Instance != null)
+				MTActionManager.Instance.AddAction(new MTSequence(actions), target, paused);
 			
 		}
 		
-		public static MTActionState Repeat(this GameObject target, uint times, params MTFiniteTimeAction[] actions)
+		public static JActionState Repeat(this GameObject target, uint times, params JFiniteTimeAction[] actions)
 		{
 			return target.RunAction (new MTRepeat (new MTSequence(actions), times));
 		}
 		
-		public static MTActionState Repeat (this GameObject target, uint times, MTFiniteTimeAction action)
+		public static JActionState Repeat (this GameObject target, uint times, JFiniteTimeAction action)
 		{
 			return  target.RunAction (new MTRepeat (action, times));
 		}
 		
-		public static MTActionState RepeatForever(this GameObject target, params MTFiniteTimeAction[] actions)
+		public static JActionState RepeatForever(this GameObject target, params JFiniteTimeAction[] actions)
 		{
 			return target.RunAction(new MTRepeatForever (actions));
 		}
 		
-		public static MTActionState RepeatForever(this GameObject target, MTFiniteTimeAction action)
+		public static JActionState RepeatForever(this GameObject target, JFiniteTimeAction action)
 		{
 			return target.RunAction(new MTRepeatForever (action) { Tag = action.Tag });
 		}
 		
-		public static MTActionState RunAction(this MonoBehaviour target, MTAction action)
+		public static JActionState RunAction(this MonoBehaviour target, JAction action)
 		{
 			Debug.Assert(action != null, "Argument must be non-nil");
 			
@@ -58,41 +60,68 @@ namespace MTUnity.Actions {
 			return  curObj.RunAction (action);
 		}
 		
-		public static MTActionState RunAction(this GameObject target, MTAction action)
+		public static JActionState RunAction(this GameObject target, JAction action)
 		{
 			Debug.Assert(action != null, "Argument must be non-nil");
 			
 			
-			return  MTActionManager.instance.AddAction(action, target, !target.IsRunning());
+			return  MTActionManager.Instance.AddAction(action, target, !target.IsRunning());
 		}
 		
-		public static MTActionState RunActions(this MonoBehaviour beh, params MTFiniteTimeAction[] actions)
+		public static JActionState RunActions(this MonoBehaviour beh, params JFiniteTimeAction[] actions)
 		{
+			if(beh == null || beh.gameObject == null)
+			{
+				return null;
+			}
 			GameObject curObj = beh.gameObject;
 			return curObj.RunActions (actions);
 		}
 		
-		public static MTActionState RunActions(this GameObject target, params MTFiniteTimeAction[] actions)
+		public static JActionState RunActions(this GameObject target, params JFiniteTimeAction[] actions)
 		{
 			Debug.Assert(actions != null, "Argument must be non-nil");
 			Debug.Assert(actions.Length > 0, "Paremeter: actions has length of zero. At least one action must be set to run.");
 			
 			
 			var action = actions.Length > 1 ? new MTSequence(actions) : actions[0];
-			
-			return MTActionManager.instance.AddAction (action, target, !target.IsRunning());
+			if(MTActionManager.Instance == null)
+			{
+				return null;
+			}
+			return MTActionManager.Instance.AddAction (action, target, !target.IsRunning());
 		}
 
-		public static void SetParticleScale(this GameObject target,float scale)
+		public static float GetParticleStartSize(this GameObject target)
 		{
 			var particleSys = target.GetComponent<ParticleSystem>();
 			if(particleSys != null)
 			{
-				particleSys.startSize *= scale;
+				return particleSys.startSize ;
+			}
+
+			int childCount = target.transform.childCount;
+			for (int i = 0; i < childCount; ++i) {
+				var curSize = target.transform.GetChild(i).gameObject.GetParticleStartSize();
+				if(curSize  > 0f)
+				{
+					return curSize;
+				}
+			}
+
+			return -1f;
+		}
+
+		public static void SetParticleSize(this GameObject target,float size)
+		{
+			var particleSys = target.GetComponent<ParticleSystem>();
+			if(particleSys != null)
+			{
+				particleSys.startSize = size;
 			}
 			int childCount = target.transform.childCount;
 			for (int i = 0; i < childCount; ++i) {
-				target.transform.GetChild(i).gameObject.SetParticleScale(scale);
+				target.transform.GetChild(i).gameObject.SetParticleSize(size);
 			}
 		}
 		
@@ -136,8 +165,8 @@ namespace MTUnity.Actions {
 		
 		public static void StopAllActions(this GameObject target)
 		{
-			if(MTActionManager.instance != null)
-				MTActionManager.instance.RemoveAllActionsFromTarget(target);
+			if(MTActionManager.Instance != null)
+				MTActionManager.Instance.RemoveAllActionsFromTarget(target);
 		}
 		
 		public static void StopAllActions(this MonoBehaviour target)
@@ -145,13 +174,13 @@ namespace MTUnity.Actions {
 			target.gameObject.StopAllActions ();
 		}
 		
-		public static void StopAction(this GameObject target, MTActionState actionState)
+		public static void StopAction(this GameObject target, JActionState actionState)
 		{
-			if(MTActionManager.instance != null)
-				MTActionManager.instance.RemoveAction(actionState);
+			if(MTActionManager.Instance != null)
+				MTActionManager.Instance.RemoveAction(actionState);
 		}
 		
-		public static void StopAction(this MonoBehaviour target,MTActionState actionState)
+		public static void StopAction(this MonoBehaviour target,JActionState actionState)
 		{
 			target.gameObject.StopAction (actionState);
 		}
@@ -159,23 +188,25 @@ namespace MTUnity.Actions {
 		public static void StopAction(this GameObject target, int tag)
 		{
 			Debug.Assert(tag != -1, "Invalid tag");
-			MTActionManager.instance.RemoveAction(tag, target);
+			if(MTActionManager.Instance == null)
+				return;
+			MTActionManager.Instance.RemoveAction(tag, target);
 		}
 		public static void StopAction(this MonoBehaviour target,int tag)
 		{
 			target.gameObject.StopAction (tag);
 		}
 		
-		public static MTAction GetAction(this GameObject target, int tag)
+		public static JAction GetAction(this GameObject target, int tag)
 		{
 			Debug.Assert(tag != -1, "Invalid tag");
-			return MTActionManager.instance.GetAction(tag, target);
+			return MTActionManager.Instance.GetAction(tag, target);
 		}
 		
-		public static MTActionState GetActionState(this GameObject target, int tag)
+		public static JActionState GetActionState(this GameObject target, int tag)
 		{
 			Debug.Assert(tag != -1, "Invalid tag");
-			return MTActionManager.instance.GetActionState(tag, target);
+			return MTActionManager.Instance.GetActionState(tag, target);
 		}
 		
 		#endregion Actions
@@ -253,11 +284,39 @@ namespace MTUnity.Actions {
 			GameObject target = curTransform.gameObject;
 			return target.getOpacity ();
 		}
+
+		public static void setTextOpacity(this GameObject obj,float curA)
+		{
+			Text t = obj.GetComponent<Text>();
+			t.setTextOpacity(curA);
+		}
+
+		public static void setTextOpacity(this Text target,float curA)
+		{	
+			
+			if(target != null)
+			{
+				Color originalColor = target.color;
+				target.color = new Color(originalColor.r,originalColor.g,originalColor.b,curA);
+			}
+		}
+
+		public static float getOpacity(this Text curT)
+		{
+			if(curT != null)
+			{
+				return curT.color.a;
+			}
+			return 0f;
+		}
+
+		
 		
 		public static void setOpacity(this GameObject target,float curA)
 		{
-			if (target) 
+			if (target != null) 
 			{
+				
 				
 				var convasGroup = target.GetComponent<CanvasGroup> ();
 				if (convasGroup != null) {
@@ -265,7 +324,8 @@ namespace MTUnity.Actions {
 					return;
 				}
 				
-				
+
+
 				var render = target.GetComponent<Renderer>();
 				if (render != null)// && render.material.HasProperty("_Color")) 
 				{

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-    public class MTBlink : MTFiniteTimeAction
+    public class MTBlink : JFiniteTimeAction
     {
         public uint Times { get; private set; }
 
@@ -17,19 +17,19 @@ namespace MTUnity.Actions
         #endregion Constructors
 
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTBlinkState (this, target);
 
         }
 
-        public override MTFiniteTimeAction Reverse ()
+        public override JFiniteTimeAction Reverse ()
         {
             return new MTBlink (Duration, Times);
         }
     }
 
-    public class MTBlinkState : MTFiniteTimeActionState
+    public class MTBlinkState : JFiniteTimeActionState
     {
 
         protected uint Times { get; set; }

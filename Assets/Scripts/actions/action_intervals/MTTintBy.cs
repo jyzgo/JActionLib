@@ -1,9 +1,9 @@
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
 
-    public class MTTintBy : MTFiniteTimeAction
+    public class MTTintBy : JFiniteTimeAction
     {
         public float DeltaB { get; private set; }
         public float DeltaG { get; private set; }
@@ -22,19 +22,19 @@ namespace MTUnity.Actions
         #endregion Constructors
 
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTTintByState (this, target);
         }
 
-        public override MTFiniteTimeAction Reverse ()
+        public override JFiniteTimeAction Reverse ()
         {
             return new MTTintBy (Duration, (float)-DeltaR, (float)-DeltaG, (float)-DeltaB);
         }
     }
 
 
-    public class MTTintByState : MTFiniteTimeActionState
+    public class MTTintByState : JFiniteTimeActionState
     {
         protected float DeltaB { get; set; }
 

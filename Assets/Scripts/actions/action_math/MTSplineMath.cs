@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
 	internal static class MTSplineMath
     {

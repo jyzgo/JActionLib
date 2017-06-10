@@ -2,25 +2,25 @@
 
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-    public class MTSequence : MTFiniteTimeAction
+    public class MTSequence : JFiniteTimeAction
     {
-        public MTFiniteTimeAction[] Actions { get; private set; }
+        public JFiniteTimeAction[] Actions { get; private set; }
 
 
         #region Constructors
 
-        public MTSequence (MTFiniteTimeAction action1, MTFiniteTimeAction action2) : base (action1.Duration + action2.Duration)
+        public MTSequence (JFiniteTimeAction action1, JFiniteTimeAction action2) : base (action1.Duration + action2.Duration)
         {
-            Actions = new MTFiniteTimeAction[2];
+            Actions = new JFiniteTimeAction[2];
             InitMTSequence (action1, action2);
         }
 
-        public MTSequence (params MTFiniteTimeAction[] actions) : base ()
+        public MTSequence (params JFiniteTimeAction[] actions) : base ()
         {
 
-            Actions = new MTFiniteTimeAction[2];
+            Actions = new JFiniteTimeAction[2];
 
             var prev = actions [0];
 
@@ -53,7 +53,7 @@ namespace MTUnity.Actions
 
         }
 
-        void InitMTSequence (MTFiniteTimeAction actionOne, MTFiniteTimeAction actionTwo)
+        void InitMTSequence (JFiniteTimeAction actionOne, JFiniteTimeAction actionTwo)
         {
             Debug.Assert (actionOne != null);
             Debug.Assert (actionTwo != null);
@@ -64,23 +64,23 @@ namespace MTUnity.Actions
 
         #endregion Constructors
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTSequenceState (this, target);
 
         }
 
-        public override MTFiniteTimeAction Reverse ()
+        public override JFiniteTimeAction Reverse ()
         {
             return new MTSequence (Actions [1].Reverse (), Actions [0].Reverse ());
         }
     }
 
-    public class MTSequenceState : MTFiniteTimeActionState
+    public class MTSequenceState : JFiniteTimeActionState
     {
         protected int last;
-        protected MTFiniteTimeAction[] actionSequences = new MTFiniteTimeAction[2];
-        protected MTFiniteTimeActionState[] actionStates = new MTFiniteTimeActionState[2];
+        protected JFiniteTimeAction[] actionSequences = new JFiniteTimeAction[2];
+        protected JFiniteTimeActionState[] actionStates = new JFiniteTimeActionState[2];
         protected float split;
         private bool hasInfiniteAction = false;
 
@@ -103,8 +103,21 @@ namespace MTUnity.Actions
 
                 return base.IsDone;
             }
-        }
+		}
 
+		public JFiniteTimeAction Actions(int index) {
+			if (index >= 0 && index < actionSequences.Length) {
+				return actionSequences [index];
+			}
+			return null;
+		}
+
+		public JFiniteTimeActionState ActionStates(int index) {
+			if (index >= 0 && index < actionStates.Length) {
+				return actionStates [index];
+			}
+			return null;
+		}
 
         protected internal override void Stop ()
         {
@@ -156,7 +169,7 @@ namespace MTUnity.Actions
                 if (last == -1)
                 {
                     // action[0] was skipped, execute it.
-                    actionStates [0] = (MTFiniteTimeActionState)actionSequences [0].StartAction (Target);
+                    actionStates [0] = (JFiniteTimeActionState)actionSequences [0].StartAction (Target);
                     actionStates [0].Update (1.0f);
                     actionStates [0].Stop ();
                 }
@@ -187,7 +200,7 @@ namespace MTUnity.Actions
             // Last action found and it is done
             if (found != last)
             {
-                actionStates [found] = (MTFiniteTimeActionState)actionSequences [found].StartAction (Target);
+                actionStates [found] = (JFiniteTimeActionState)actionSequences [found].StartAction (Target);
             }
 
             actionStates [found].Update (new_t);

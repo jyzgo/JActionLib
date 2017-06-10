@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-    public class MTJumpBy : MTFiniteTimeAction
+    public class MTJumpBy : JFiniteTimeAction
     {   
         #region Properties
 
@@ -24,18 +24,18 @@ namespace MTUnity.Actions
 
         #endregion Constructors
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTJumpByState (this, target);
         }
 
-        public override MTFiniteTimeAction Reverse ()
+        public override JFiniteTimeAction Reverse ()
         {
             return new MTJumpBy (Duration, new Vector3 (-Position.x, -Position.y,-Position.z), Height, Jumps);
         }
     }
 
-    public class MTJumpByState : MTFiniteTimeActionState
+    public class MTJumpByState : JFiniteTimeActionState
     {
         protected Vector3 Delta;
         protected float Height;

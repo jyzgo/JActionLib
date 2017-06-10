@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
     public class MTRandom
     {

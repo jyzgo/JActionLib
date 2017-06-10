@@ -1,22 +1,22 @@
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-    public class MTRepeat : MTFiniteTimeAction
+    public class MTRepeat : JFiniteTimeAction
     {
         #region Properties
 
         public bool ActionInstant { get; private set; }
         public uint Times { get; private set; }
         public uint Total { get; private set; }
-        public MTFiniteTimeAction InnerAction { get; private set; }
+        public JFiniteTimeAction InnerAction { get; private set; }
 
         #endregion Properties
 
 
         #region Constructors
 
-        public MTRepeat (MTFiniteTimeAction action, uint times) : base (action.Duration * times)
+        public MTRepeat (JFiniteTimeAction action, uint times) : base (action.Duration * times)
         {
 
             Times = times;
@@ -33,28 +33,28 @@ namespace MTUnity.Actions
 
         #endregion Constructors
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTRepeatState (this, target);
 
         }
 
-        public override MTFiniteTimeAction Reverse ()
+        public override JFiniteTimeAction Reverse ()
         {
             return new MTRepeat (InnerAction.Reverse(), Times);
         }
     }
 
-    public class MTRepeatState : MTFiniteTimeActionState
+    public class MTRepeatState : JFiniteTimeActionState
     {
 
         protected bool ActionInstant { get; set; }
 
         protected float NextDt { get; set; }
 
-        protected MTFiniteTimeAction InnerAction { get; set; }
+        protected JFiniteTimeAction InnerAction { get; set; }
 
-        protected MTFiniteTimeActionState InnerActionState { get; set; }
+        protected JFiniteTimeActionState InnerActionState { get; set; }
 
         protected uint Times { get; set; }
 
@@ -71,7 +71,7 @@ namespace MTUnity.Actions
 
             NextDt = InnerAction.Duration / Duration;
 
-            InnerActionState = (MTFiniteTimeActionState)InnerAction.StartAction (target);
+            InnerActionState = (JFiniteTimeActionState)InnerAction.StartAction (target);
         }
 
         protected internal override void Stop ()
@@ -92,7 +92,7 @@ namespace MTUnity.Actions
                     Total++;
 
                     InnerActionState.Stop ();
-                    InnerActionState = (MTFiniteTimeActionState)InnerAction.StartAction (Target);
+                    InnerActionState = (JFiniteTimeActionState)InnerAction.StartAction (Target);
                     NextDt = InnerAction.Duration / Duration * (Total+1f);
                 }
 

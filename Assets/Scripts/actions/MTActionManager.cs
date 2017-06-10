@@ -1,17 +1,17 @@
 using System.Collections.Generic;
-////using System.Diagnostics;
 using System;
 using UnityEngine;
+using JUnity;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
-	public class MTActionManager : MonoBehaviour, IDisposable
+	public class MTActionManager : Singleton<MTActionManager>
     {
         internal class HashElement
         {
             public int ActionIndex;
-            public List<MTActionState> ActionStates;
-            public MTActionState CurrentActionState;
+            public List<JActionState> ActionStates;
+            public JActionState CurrentActionState;
             public bool CurrentActionSalvaged;
             public bool Paused;
 			public GameObject Target;
@@ -25,82 +25,20 @@ namespace MTUnity.Actions
         HashElement currentTarget;
         bool targetsAvailable = false;
 
-		#region instance
-		MTActionManager()
+		protected MTActionManager()
 		{
 			
 		}
 
-		static MTActionManager _instance;
-		public static MTActionManager instance {
-			get{
-				if (_instance == null) {
-					GameObject curMgr = new GameObject ("ActionManager");
-					DontDestroyOnLoad (curMgr);
-					curMgr.AddComponent<MTActionManager> ();
-					_instance = curMgr.GetComponent<MTActionManager> ();
-
-				}
-
-				return _instance;
-			}
-		}
-
-		bool _isInit = false;
-		public void init()
+		public new void OnDestroy ()
 		{
-			Debug.Log ("Init action");
-			Debug.Assert (_isInit == false, "Only init Once");
-		}
-			
-		void Awake()
-		{
-			if(_instance == null){
-				_instance = this;
-				DontDestroyOnLoad (this);
-			}
-			else
-			{
-				if(this != _instance)
-				{
-					Destroy (this.gameObject);	
-				}
-			}
+			this.RemoveAllActions();
+			base.OnDestroy ();
 		}
 
-
-		#endregion instance
-
-        #region Cleaning up
-
-
-        ~MTActionManager ()
+        public JAction GetAction(int tag, GameObject target)
         {
-            this.Dispose(false);
-        }
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // Dispose of managed resources
-            }
-
-            this.RemoveAllActions();
-        }
-
-        #endregion Cleaning up
-
-        public MTAction GetAction(int tag, GameObject target)
-        {
-            Debug.Assert(tag != (int)MTActionTag.Invalid);
+            Debug.Assert(tag != (int)JActionTag.Invalid);
 
             // Early out if we do not have any targets to search
             if (targets.Count == 0)
@@ -121,19 +59,19 @@ namespace MTUnity.Actions
                             return action;
                         }
                     }
-                   Debug.Log("MTUnityAction : GetActionByTag: Tag " + tag + " not found");
+//                   Debug.LogWarning ("MTUnityAction : GetActionByTag: Tag " + tag + " not found");//Comment Mark,Don't Delete
                 }
             }
             else
             {
-               Debug.Log("MTUnityAction : GetActionByTag: Target not found");
+//				Debug.LogWarning ("MTUnityAction : GetActionByTag: Target not found");//Comment Mark,Don't Delete
             }
             return null;
         }
 
-        public MTActionState GetActionState(int tag, GameObject target)
+        public JActionState GetActionState(int tag, GameObject target)
         {
-            Debug.Assert(tag != (int)MTActionTag.Invalid);
+            Debug.Assert(tag != (int)JActionTag.Invalid);
 
             // Early out if we do not have any targets to search
             if (targets.Count == 0)
@@ -154,12 +92,12 @@ namespace MTUnity.Actions
                             return actionState;
                         }
                     }
-                   Debug.Log("MTUnityAction : GetActionStateByTag: Tag " + tag + " not found");
+//					Debug.LogWarning ("MTUnityAction : GetActionStateByTag: Tag " + tag + " not found");//Comment Mark,Don't Delete
                 }
             }
             else
             {
-               Debug.Log("MTUnityAction : GetActionStateByTag: Target not found");
+//				Debug.LogWarning ("MTUnityAction : GetActionStateByTag: Target not found");//Comment Mark,Don't Delete
             }
             return null;
         }
@@ -189,12 +127,17 @@ namespace MTUnity.Actions
 //            }
 //            targets.Keys.CopyTo(tmpKeysArray, 0);
 
+
 			tmpKeysArray.Clear();
-			var curEn = targets.GetEnumerator();
-			while(curEn.MoveNext())
+			var enumK = targets.GetEnumerator();
+			while(enumK.MoveNext())
 			{
-				tmpKeysArray.Add(curEn.Current.Key);
+				tmpKeysArray.Add(enumK.Current.Key);
 			}
+
+//			tmpKeysArray.AddRange (targets.Keys);
+
+
 
             for (int i = 0; i < count; i++)
             {
@@ -280,7 +223,7 @@ namespace MTUnity.Actions
         {
             if (element.ActionStates == null)
             {
-                element.ActionStates = new List<MTActionState>();
+                element.ActionStates = new List<JActionState>();
             }
         }
 
@@ -335,9 +278,22 @@ namespace MTUnity.Actions
         #endregion Action running
 
 
+		public static JActionState RunActions(params JFiniteTimeAction[] actions)
+		{
+			var cur = MTActionManager.Instance.gameObject;
+			return cur.RunActions(actions);
+		}
+
+		public static void StopAction(JActionState state)
+		{
+			var instance = MTActionManager.Instance.gameObject;
+			instance.StopAction(state);
+		}
+
+
         #region Adding/removing actions
 
-        public MTActionState AddAction(MTAction action, GameObject target, bool paused = false)
+        public JActionState AddAction(JAction action, GameObject target, bool paused = false)
         {
             Debug.Assert(action != null);
             Debug.Assert(target != null);
@@ -420,7 +376,7 @@ namespace MTUnity.Actions
             }
         }
 
-        public void RemoveAction(MTActionState actionState)
+        public void RemoveAction(JActionState actionState)
         {
             if (actionState == null || actionState.OriginalTarget == null)
             {
@@ -439,12 +395,12 @@ namespace MTUnity.Actions
                 }
                 else
                 {
-                   Debug.Log("MTUnityAction: removeAction: Action not found");
+//					Debug.LogWarning ("MTUnityAction: removeAction: Action not found");//Comment Mark,Don't Delete
                 }
             }
             else
             {
-               Debug.Log("MTUnityAction: removeAction: Target not found");
+//				Debug.LogWarning ("MTUnityAction: removeAction: Target not found");//Comment Mark,Don't Delete
             }
         }
 
@@ -478,7 +434,7 @@ namespace MTUnity.Actions
             }
         }
 
-        internal void RemoveAction(MTAction action, GameObject target)
+        internal void RemoveAction(JAction action, GameObject target)
         {
             if (action == null || target == null)
                 return;
@@ -502,18 +458,21 @@ namespace MTUnity.Actions
                 }
 
                 if (!actionFound)
-                   Debug.Log("MTUnityAction : RemoveAction: Action not found");
+				{
+//					Debug.LogWarning ("MTUnityAction : RemoveAction: Action not found");//Comment Mark,Don't Delete
+				}
+
             }
             else
             {
-               Debug.Log("MTUnityAction : RemoveAction: Target not found");
+//				Debug.LogWarning ("MTUnityAction : RemoveAction: Target not found");//Comment Mark,Don't Delete
             }
 
         }
 
         public void RemoveAction(int tag, GameObject target)
         {
-            Debug.Assert((tag != (int)MTActionTag.Invalid));
+            Debug.Assert((tag != (int)JActionTag.Invalid));
             Debug.Assert(target != null);
 
             // Early out if we do not have any targets to search
@@ -539,11 +498,13 @@ namespace MTUnity.Actions
                 }
 
                 if (!tagFound)
-                   Debug.Log("MTUnityAction : removeActionByTag: Tag " + tag + " not found");
+				{
+//					Debug.LogWarning ("MTUnityAction : removeActionByTag: Tag " + tag + " not found");
+				}
             }
             else
             {
-               Debug.Log("MTUnityAction : removeActionByTag: Target not found");
+//				Debug.LogWarning ("MTUnityAction : removeActionByTag: Target not found");//Comment Mark,Don't Delete
             }
         }
 

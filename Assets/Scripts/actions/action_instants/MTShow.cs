@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
     public class MTShow : MTActionInstant
     {
@@ -12,13 +12,13 @@ namespace MTUnity.Actions
 
         #endregion Constructors
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTShowState (this, target);
 
         }
 
-        public override MTFiniteTimeAction Reverse ()
+        public override JFiniteTimeAction Reverse ()
         {
             return (new MTHide ());
         }

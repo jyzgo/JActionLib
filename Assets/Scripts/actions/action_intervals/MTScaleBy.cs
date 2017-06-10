@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
 	public class MTScaleBy : MTScaleTo
 	{
@@ -17,13 +17,13 @@ namespace MTUnity.Actions
 
 		#endregion Constructors
 
-		protected internal override MTActionState StartAction(GameObject target)
+		protected internal override JActionState StartAction(GameObject target)
 		{
 			return new MTScaleByState (this, target);
 
 		}
 
-		public override MTFiniteTimeAction Reverse ()
+		public override JFiniteTimeAction Reverse ()
 		{
 			return new MTScaleBy (Duration, 1 / EndScaleX, 1 / EndScaleY , 1/EndScaleZ);
 		}

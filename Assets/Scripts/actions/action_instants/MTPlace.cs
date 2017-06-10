@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
     public class MTPlace : MTActionInstant
     {
@@ -9,9 +9,11 @@ namespace MTUnity.Actions
 
         #region Constructors
 
-        public MTPlace (Vector3 pos)
+		bool _isWorld = false;
+		public MTPlace (Vector3 pos,bool isWorld = false)
         {
             Position = pos;
+			_isWorld = isWorld;
         }
 
         public MTPlace (int posX, int posY , int posZ)
@@ -21,9 +23,9 @@ namespace MTUnity.Actions
 
         #endregion Constructors
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
-            return new MTPlaceState (this, target);
+			return new MTPlaceState (this, target,_isWorld);
 
         }
     }
@@ -31,10 +33,16 @@ namespace MTUnity.Actions
     public class MTPlaceState : MTActionInstantState
     {
 
-        public MTPlaceState (MTPlace action, GameObject target)
+		public MTPlaceState (MTPlace action, GameObject target,bool isWorld)
             : base (action, target)
         { 
-			Target.transform.localPosition = action.Position;
+			if(isWorld)
+			{
+				Target.transform.position = action.Position;
+			}else
+			{
+				Target.transform.localPosition = action.Position;
+			}
         }
 
     }

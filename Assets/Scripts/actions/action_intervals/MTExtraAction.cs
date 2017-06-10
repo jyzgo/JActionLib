@@ -3,17 +3,17 @@ using System;
 
 using UnityEngine;
 
-namespace MTUnity.Actions
+namespace JUnity.Actions
 {
     // Extra action for making a MTSequence or MTSpawn when only adding one action to it.
-    internal class MTExtraAction : MTFiniteTimeAction
+    internal class MTExtraAction : JFiniteTimeAction
     {
-        public override MTFiniteTimeAction Reverse ()
+        public override JFiniteTimeAction Reverse ()
         {
             return new MTExtraAction ();
         }
 
-        protected internal override MTActionState StartAction(GameObject target)
+        protected internal override JActionState StartAction(GameObject target)
         {
             return new MTExtraActionState (this, target);
 
@@ -21,7 +21,7 @@ namespace MTUnity.Actions
 
         #region Action State
 
-        public class MTExtraActionState : MTFiniteTimeActionState
+        public class MTExtraActionState : JFiniteTimeActionState
         {
 
             public MTExtraActionState (MTExtraAction action, GameObject target)

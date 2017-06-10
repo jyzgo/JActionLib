@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
-using MTUnity.Actions;
+using JUnity.Actions;
 
 public class TestAction : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		MTActionManager.instance.init ();
+	
 	}
 
 	bool canMove = false;
