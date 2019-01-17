@@ -18,7 +18,7 @@ using MTUnity.Actions;
   ```
   cube.RunActions(new MTMoveTo(2f,posA),new MTMoveTo(2f,posB));
   ```
-  ### Move a cube to posA, at the same time, scale it to 2times bigger
+  ### Simultaneously Action Move a cube to posA, at the same time, scale it to 2times bigger
   
   ```
   cube.RunActions(new MTSpawn(new MTMoveTo(1f,posA),new MTScaleTo(new Vector3(2f,2f,2f)));
