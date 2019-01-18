@@ -5,6 +5,15 @@ A action lib for unity
 ```
 using MTUnity.Actions;
 ```
+What is the most elegant way to move/scale/fade/... an gameObject?
+Normally in unity, this what we normally do.
+```
+public float speed;
+     void Update() {
+         float step = speed * Time.deltaTime;
+         transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+     }
+```
 ##example:
  ###Move a cube(gameObject) to posA in 2s
  ```
