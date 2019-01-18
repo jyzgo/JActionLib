@@ -51,7 +51,7 @@ A action lib for unity
 //some mess code
 
 ```
-#### MTActionLib use command pattern to simplify above movement, you don't need create extra script to deal with the actions,you only need to do something like this.
+#### MTActionLib use command pattern to simplify above movement, you don't need create extra script to deal with the actions, only need to replace mess code like below.
 
 ```
 gameObject.RunActions(action1,action2,action3);
