@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace JUnity.Actions
 {
@@ -6,6 +7,7 @@ namespace JUnity.Actions
     {
         #region Constructors
 
+        [ObsoleteAttribute("This method will soon be deprecated. Use JGraphicFadeTo")]
         public JFadeIn (float durataion) : base (durataion)
         {
         }

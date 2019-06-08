@@ -11,6 +11,7 @@ namespace JUnity.Actions
 
         #region Constructors
 
+        [ObsoleteAttribute("This method will soon be deprecated. Use JGraphicFadeTo")]
         public JFadeTo (float duration, float opacity) : base (duration)
         {
             ToOpacity = opacity;
